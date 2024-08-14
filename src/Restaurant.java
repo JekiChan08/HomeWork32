@@ -1,27 +1,21 @@
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class Restaurant {
-    private Order[] orders;
-    private MenuItem[] menuItems;
-    int sizeO;
-    int sizeM;
+    private ArrayList<Order> orders;
+    private ArrayList<MenuItem> menuItems;
+
 
     public Restaurant() {
-        orders = new Order[10];
-        menuItems = new MenuItem[30];
-        int sizeO = 0;
-        int sizeM = 0;
+        menuItems = new ArrayList<>();
+        orders = new ArrayList<>();
     }
 
     public void addMenuItem(MenuItem item) {
-        if (sizeM < menuItems.length) {
-            menuItems[sizeM++] = item;
-        }
+        menuItems.add(item);
     }
     public void placeOrder(Order order) {
-        if (sizeO < orders.length) {
-            orders[sizeO++] = order;
-        }
+        orders.add(order);
     }
 
     public Order getOrderById(int orderId) {
@@ -30,10 +24,11 @@ public class Restaurant {
                 if (order.getOrderId() == orderId) {
                     System.out.println("Заказ " + orderId + " найдена");
                     return order;
-
+                }else {
+                    throw new NoSuchElementException();
                 }
             }
-        } catch (NullPointerException err) {
+        } catch (NoSuchElementException err) {
             System.out.println("Заказ не найден");
             return null;
         }
@@ -46,10 +41,13 @@ public class Restaurant {
                 if (order.getOrderId() == orderId) {
                     order.completeOrder();
                     break;
+                }else {
+                    throw new NoSuchElementException();
+
                 }
             }
-        }catch (NullPointerException err) {
-            System.out.println("Заказ не найден");
+        }catch (NoSuchElementException err) {
+            System.out.println("Заказ не найден или завершен");
         }
     }
 }

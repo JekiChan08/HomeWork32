@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class Order {
     private int orderId;
     private String customerName;
-    private MenuItem[] items;
+    private ArrayList<MenuItem> items;
     private boolean isCompleted;
 
     public double calculateTotal() {
@@ -13,15 +15,16 @@ public class Order {
     }
 
     public void completeOrder() {
-        if (isCompleted == false) {
-            try {
+        try {
+            if (isCompleted == false) {
                 isCompleted = true;
                 System.out.println("Заказ " + getOrderId() + " завершен");
-            }catch (IllegalArgumentException err) {
-                System.out.println("Заказ не найден");
+            } else {
+                System.out.println("Заказ уже завершен");
+                throw new IllegalArgumentException();
             }
-        }else {
-            System.out.println("Заказ уже завершен");
+        } catch (IllegalArgumentException err) {
+            System.out.println("Заказ не найден или завершен");
         }
     }
 
@@ -29,7 +32,6 @@ public class Order {
     public Order(String customerName, MenuItem[] items, int orderId) {
         this.customerName = customerName;
         this.isCompleted = false;
-        this.items = items;
         this.orderId = orderId;
     }
 
@@ -49,11 +51,11 @@ public class Order {
         isCompleted = completed;
     }
 
-    public MenuItem[] getItems() {
+    public ArrayList<MenuItem> getItems() {
         return items;
     }
 
-    public void setItems(MenuItem[] items) {
+    public void setItems(ArrayList<MenuItem> items) {
         this.items = items;
     }
 
